@@ -11,6 +11,8 @@ namespace Jakjr\Keeper;
 
 class Keeper {
 
+    //abstrair o contexto
+
     public function keep($context, $inputs)
     {
         foreach($inputs as $key => $value) {
@@ -21,6 +23,11 @@ class Keeper {
     public function get($context, $key)
     {
         return \Session::get("keeper.$context.$key");
+    }
+
+    public function all($context)
+    {
+        return \Session::get("keeper.$context");
     }
 
 }
