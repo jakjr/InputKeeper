@@ -1,0 +1,19 @@
+{
+    "name": "jakjr/keeper",
+    "description": "Input Keeper",
+    "authors": [
+        {
+            "name": "João Alfredo Knopik Junior",
+            "email": "joao.alfredo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Jakjr\\Keeper\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
