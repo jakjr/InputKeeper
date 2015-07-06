@@ -11,23 +11,49 @@ namespace Jakjr\Keeper;
 
 class Keeper {
 
-    //abstrair o contexto
-
-    public function keep($context, $inputs)
+    private $context = null;
+    
+    function __construct($client=null)
     {
-        foreach($inputs as $key => $value) {
-            \Session::put("keeper.$context.$key", $value);
+        if (! is_null($client)) {
+            $this->context = get_class($client);
         }
     }
 
-    public function get($context, $key)
+    public function getContext($passedContext=null)
     {
-        return \Session::get("keeper.$context.$key");
+        if (! is_null($passedContext)) {
+            return $passedContext;
+        }
+
+        if (! is_null($this->context)) {
+            return $this->context;
+        }
+
+        throw new \InvalidArgumentException('No context defined');
     }
 
-    public function all($context)
+    public function keep($inputs, $context=null)
     {
-        return \Session::get("keeper.$context");
+        $contextToUse = $this->getContext($context);
+
+        foreach($inputs as $key => $value) {
+            \Session::put("keeper.$contextToUse.$key", $value);
+        }
+    }
+
+    public function get($key, $context=null)
+    {
+        $contextToUse = $this->getContext($context);
+
+        return \Session::get("keeper.$contextToUse.$key");
+    }
+
+    public function all($context=null)
+    {
+        $contextToUse = $this->getContext($context);
+
+        return \Session::get("keeper.$contextToUse");
     }
 
 }
