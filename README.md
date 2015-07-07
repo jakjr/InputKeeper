@@ -1,6 +1,10 @@
 # InputKeeper
 Uma abstração do Laravel Session para guardar valores de inputs (pages, filters, etc)
 
+# Registrar o ServiceProvider (app.php)
+
+'Jakjr\Keeper\KeeperServiceProvider',
+
 # Uso no Controller
 ```
 class KeepController extends BaseController {
@@ -9,7 +13,7 @@ class KeepController extends BaseController {
 
     function __construct()
     {
-        $this->keeper = new Jakjr\Keeper\Keeper($this);
+        $this->keeper = App::make('keeper', $this);
     }
 
     public function index()

@@ -1,26 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jakjr
- * Date: 05/07/15
- * Time: 06:02
- */
-
 namespace Jakjr\Keeper;
 
+use Illuminate\Session\SessionInterface;
 
 class Keeper {
 
     private $context = null;
+    private $session;
     
-    function __construct($client=null)
+    function __construct($client=null, SessionInterface $session)
     {
-        if (! is_null($client)) {
-            $this->context = get_class($client);
+        $this->session = $session;
+
+        if (! is_null($client) ) {
+            $this->context = is_object($client) ? get_class($client) : $client;
         }
     }
 
-    public function getContext($passedContext=null)
+    private function getContext($passedContext=null)
     {
         if (! is_null($passedContext)) {
             return $passedContext;
@@ -38,7 +35,7 @@ class Keeper {
         $contextToUse = $this->getContext($context);
 
         foreach($inputs as $key => $value) {
-            \Session::put("keeper.$contextToUse.$key", $value);
+            $this->session->put("keeper.$contextToUse.$key", $value);
         }
     }
 
@@ -46,14 +43,14 @@ class Keeper {
     {
         $contextToUse = $this->getContext($context);
 
-        return \Session::get("keeper.$contextToUse.$key");
+        return $this->session->get("keeper.$contextToUse.$key");
     }
 
     public function all($context=null)
     {
         $contextToUse = $this->getContext($context);
 
-        return \Session::get("keeper.$contextToUse");
+        return $this->session->get("keeper.$contextToUse");
     }
 
 }

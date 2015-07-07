@@ -28,7 +28,10 @@ class KeeperServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+        $this->app->bind('keeper', function($app, $clientContext)
+        {
+            return new Keeper($clientContext, app('Illuminate\Session\Store'));
+        });
 	}
 
 	/**
