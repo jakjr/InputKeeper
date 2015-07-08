@@ -30,7 +30,7 @@ class Keeper {
         throw new \InvalidArgumentException('No context defined');
     }
 
-    public function keep($inputs, $context=null)
+    public function keep(Array $inputs, $context=null)
     {
         $contextToUse = $this->getContext($context);
 
